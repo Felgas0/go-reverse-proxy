@@ -1,6 +1,7 @@
 package proxy
 
 import (
+	"context"
 	"log"
 	"net"
 	"net/url"
@@ -42,9 +43,18 @@ func (s *ServerPool) HealthCheck() {
 	}
 }
 
-func (s *ServerPool) StartHealthCheck(interval time.Duration) {
+func (s *ServerPool) StartHealthCheck(ctx context.Context, interval time.Duration) {
 	ticker := time.NewTicker(interval)
-	for range ticker.C {
-		s.HealthCheck()
+	defer ticker.Stop()
+
+	for {
+		select {
+		case <-ctx.Done():
+			log.Println("App is shutting down, healthchecker is exiting.")
+			return
+
+		case <-ticker.C:
+			s.HealthCheck()
+		}
 	}
 }
