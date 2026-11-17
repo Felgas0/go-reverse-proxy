@@ -1,8 +1,6 @@
 # go-reverse-proxy
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/Felgas0/go-reverse-proxy)](https://goreportcard.com/report/github.com/Felgas0/go-reverse-proxy)
-[![Go Version](https://img.shields.io/badge/Go-1.21%2B-blue.svg)](https://golang.org)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+![Go Version](https://img.shields.io/badge/Go-1.21%2B-00ADD8?style=flat&logo=go)
 
 A production-grade, concurrent HTTP reverse proxy and load balancer built from scratch in Go. Designed to demonstrate concurrency patterns, lock-free primitives, network resilience, and zero-downtime lifecycle management.
 
