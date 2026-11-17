@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"time"
 )
 
 func main() {
@@ -13,7 +12,6 @@ func main() {
 	flag.Parse()
 	fmt.Printf("Listening on %s \n", *port)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		time.Sleep(5 * time.Second)
 		_, err := fmt.Fprintf(w, "Hello from backend :%s\n", *port)
 		if err != nil {
 			log.Printf("write error %v", err)
