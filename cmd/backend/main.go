@@ -13,7 +13,7 @@ func main() {
 	fmt.Printf("Listening on %s \n", *port)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		_, err := fmt.Fprintf(w, "Hello from backend :%s\n", *port)
-		if (err != nil) {
+		if err != nil {
 			log.Printf("write error %v", err)
 		}
 	})
