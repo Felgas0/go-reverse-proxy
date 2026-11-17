@@ -5,31 +5,16 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"net/http/httputil"
-	"net/url"
 	"strings"
 	"time"
 
 	"github.com/Felgas0/go-reverse-proxy/internal/proxy"
+	"github.com/Felgas0/go-reverse-proxy/internal/ratelimiter"
 )
 
-func main2() {
-	u, err := url.Parse("http://localhost:8080")
-	if err != nil {
-		log.Fatal(err)
-	}
+const maxTokens float64 = 5
+const refillRate float64 = 1
 
-	rel, err := u.Parse("/")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println(rel)
-
-	revProxy := httputil.NewSingleHostReverseProxy(rel)
-
-	log.Fatal(http.ListenAndServe(":8081", revProxy))
-}
 
 func main() {
 	url := flag.String("url", "http://localhost:8080", "backend url's")
@@ -46,7 +31,10 @@ func main() {
 		backends = append(backends, b)
 	}
 
+	limiter := ratelimiter.NewRateLimiter(maxTokens, refillRate)
+
 	pool := proxy.NewServerPool(backends)
+	handlerWithLimiter := limiter.Middleware(pool)
 	go pool.StartHealthCheck(5 * time.Second)
-	log.Fatal(http.ListenAndServe(":8080", pool))
+	log.Fatal(http.ListenAndServe(":8080", handlerWithLimiter))
 }
