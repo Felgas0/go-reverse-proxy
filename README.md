@@ -1,9 +1,14 @@
 # go-reverse-proxy
 
-## Proximately working tree
+> An HTTP reverse proxy and load balancer built from scratch to learn Go, concurrency patterns, and network internals.
 
+## Project Structure
+
+```text
 go-reverse-proxy/
 ├── cmd/
+│   ├── backend/
+│   │   └── main.go          # Dummy backend servers to test load balancing locally
 │   └── proxy/
 │       └── main.go          # Entrypoint, CLI flags, graceful shutdown
 ├── internal/
@@ -12,7 +17,6 @@ go-reverse-proxy/
 │   │   └── health.go        # Background active health checker
 │   └── ratelimit/
 │       └── limiter.go       # Per-IP Token Bucket limiter + background cleanup
-├── testserver/
-│   └── main.go              # Dummy backend servers to test load balancing locally
 ├── go.mod
 └── README.md
+```
