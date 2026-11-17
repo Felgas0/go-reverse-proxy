@@ -8,6 +8,7 @@ import (
 	"net/http/httputil"
 	"net/url"
 	"strings"
+	"time"
 
 	"github.com/Felgas0/go-reverse-proxy/internal/proxy"
 )
@@ -46,5 +47,6 @@ func main() {
 	}
 
 	pool := proxy.NewServerPool(backends)
-	log.Fatal(http.ListenAndServe(":8080",pool))
+	go pool.StartHealthCheck(5 * time.Second)
+	log.Fatal(http.ListenAndServe(":8080", pool))
 }

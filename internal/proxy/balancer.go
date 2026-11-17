@@ -42,12 +42,18 @@ func NewServerPool(backends []*Backend) *ServerPool {
 }
 
 func (s *ServerPool) GetNextPeer() *Backend {
-	if len(s.backends) <= 0 {
+	n := uint64(len(s.backends))
+	if n <= 0 {
 		return nil
 	}
-	newCurrent := s.current.Add(1)
-	index := newCurrent % uint64(len(s.backends))
-	return s.backends[index]
+	next := s.current.Add(1)
+	for i := 0; i < int(n); i++ {
+		idx := (next + uint64(i)) % n
+		if s.backends[idx].IsAlive() {
+			return s.backends[idx]
+		}
+	}
+	return nil
 }
 
 func (s *ServerPool) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -57,5 +63,5 @@ func (s *ServerPool) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	peer.revProxy.ServeHTTP(w,r)
+	peer.revProxy.ServeHTTP(w, r)
 }
