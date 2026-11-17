@@ -2,7 +2,7 @@
 
 ![Go Version](https://img.shields.io/badge/Go-1.21%2B-00ADD8?style=flat&logo=go)
 
-A production-grade, concurrent HTTP reverse proxy and load balancer built from scratch in Go. Designed to demonstrate concurrency patterns, lock-free primitives, network resilience, and zero-downtime lifecycle management.
+A production-grade, concurrent HTTP reverse proxy and load balancer built from scratch in Go. Designed to demonstrate concurrency patterns, lock-free primitives, network resilience, zero-downtime lifecycle management and for me to get some experience in Go.
 
 ---
 
